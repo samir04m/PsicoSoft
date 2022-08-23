@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .structures import *
 
 def Login(request):
     if request.method == 'POST':
@@ -13,7 +14,8 @@ def Login(request):
             login(request, user)
             return HttpResponseRedirect('/')
         else:
-            return HttpResponse("No es posible ingresar con este usuario. Póngase en contacto con el administrador.")
+            alert = Alert("El usuario o la contraseña son incorrectos.", "danger")
+            return render(request, 'login.html', {"username": username, "alert": alert})
     else:
         return render(request, 'login.html')
 

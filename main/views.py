@@ -25,4 +25,4 @@ def Logout(request):
 
 @login_required(login_url='/login/')
 def Inicio(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, 'inicio.html')

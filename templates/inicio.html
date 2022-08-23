@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Formulario de Cuenta{% endblock %}
+
+{% block contenido %}
+    <h3 class="mb-4">Hola, {{request.user.first_name}}</h3>
+    <div class="card shadow">
+        <div class="card-body">
+            <h4 class="card-title text-center">
+                Listado de pacientes
+                <a href="" class="btn btn-info text-end mx-3"><i class="bi bi-person-plus"></i> Agregar paciente</a>
+            </h4>
+            <hr>
+            {% if pacientes %}
+                muestra
+            {% else %}
+                <div class="text-center">
+                    <p>No hay pacientes para mostrar</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

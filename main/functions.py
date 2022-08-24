@@ -1,5 +1,23 @@
+from datetime import datetime
 from .structures import *
 from .models import *
+
+def saveLog(usuario, descripcion, excepcion):
+    try:
+        log = ExceptionLog(
+            usuario = usuario,
+            descripcion = descripcion,
+            excepcion = excepcion,
+            fecha = datetime.now()
+        )
+        log.save()
+    except Exception as e:
+        print("  ===>  Error: No se puede guardar log. Exception: "+str(e))
+
+def obtenerFecha(fecha):
+    splited = fecha.split("-")
+    date = datetime(int(splited[0]), int(splited[1]), int(splited[2]))
+    return date
 
 def GetSelectData(paciente):
     tipos = ["", "CC", "TI", "RC"]

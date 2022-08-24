@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from datetime import datetime
 from .structures import *
-from .selectBuilder import *
+from .functions import *
 from .models import *
 
 def Index(request):
@@ -32,18 +32,6 @@ def Login(request):
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/login')
-
-def saveLog(usuario, descripcion, excepcion):
-    try:
-        log = ExceptionLog(
-            usuario = usuario,
-            descripcion = descripcion,
-            excepcion = excepcion,
-            fecha = datetime.now()
-        )
-        log.save()
-    except Exception as e:
-        print("  ===>  Error: No se puede guardar log. Exception: "+str(e))
 
 @login_required(login_url='/login/')
 def PacienteList(request):
@@ -84,12 +72,13 @@ def PacienteUpdate(request, id):
         "selectData": selectData
     }
     if request.method == 'POST':
+        print(obtenerFecha(request.POST.get('fechaNacimiento')))
         try:
             paciente.nombres = request.POST.get('nombres')
             paciente.apellidos = request.POST.get('apellidos')
             paciente.tipoDocumento = request.POST.get('tipoDocumento')
             paciente.numeroDocumento = request.POST.get('numeroDocumento')
-            # paciente.fechaNacimiento = request.POST.get('fechaNacimiento')
+            paciente.fechaNacimiento = obtenerFecha(request.POST.get('fechaNacimiento'))
             paciente.sexo = request.POST.get('sexo')
             paciente.estadoCivil = request.POST.get('estadoCivil')
             paciente.direccion = request.POST.get('direccion')

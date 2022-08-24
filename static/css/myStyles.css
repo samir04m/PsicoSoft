@@ -1,4 +1,10 @@
 
 .btn-info {
     color: white;
+    background-color: #2bc6c4 !important;
+    border-color: #2bc6c4 !important;
+}
+
+.bg-color {
+    background-color: #4ab9b3 !important;
 }

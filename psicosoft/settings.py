@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-rdejmxy-ioai$zr)76k_$iwdhexysppr@(6ruts(7@e1151uxo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'psicosoft.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.psicosoft',
     }
 }
 

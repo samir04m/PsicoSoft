@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Formulario de Cuenta{% endblock %}
+
+{% block contenido %}
+    <h3 class="mb-4">Hola, {{request.user.first_name}}</h3>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.extra_tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow">
+        <div class="card-body">
+            <h4 class="card-title text-center">
+                Listado de pacientes
+                <button type="button" class="btn btn-info text-end m-1" data-bs-toggle="modal" data-bs-target="#modalAddPaciente">
+                    <i class="bi bi-person-plus"></i> Agregar paciente
+                </button>
+            </h4>
+            <hr>
+            {% if pacientes %}
+                muestra
+            {% else %}
+                <div class="text-center">
+                    <p>No hay pacientes para mostrar</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAddPaciente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalAddPacienteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAddPacienteLabel">Agregar paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{% url 'main:PacienteSave' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="nombres" name="nombres" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="tipoDocumento" class="form-label">Tipo de documento &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
+                                    <option value="CC">CC</option>
+                                    <option value="TI">TI</option>
+                                    <option value="RC">RC</option>
+                                </select>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="numeroDocumento" class="form-label">Número de documento</label>
+                                <input type="number" class="form-control" id="numeroDocumento" name="numeroDocumento" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-info">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

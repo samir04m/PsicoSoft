@@ -33,7 +33,8 @@ def Logout(request):
 
 @login_required(login_url='/login/')
 def PacienteList(request):
-    return render(request, 'paciente/list.html')
+    pacientes = Paciente.objects.filter(usuario = request.user)
+    return render(request, 'paciente/list.html', {"pacientes": pacientes})
 
 @login_required(login_url='/login/')
 def PacienteSave(request):

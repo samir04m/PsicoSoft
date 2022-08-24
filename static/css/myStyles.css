@@ -8,3 +8,8 @@
 .bg-color {
     background-color: #4ab9b3 !important;
 }
+
+.page-item.active .page-link {
+    background-color: #4ab9b3;
+    border-color: #4ab9b3;
+}

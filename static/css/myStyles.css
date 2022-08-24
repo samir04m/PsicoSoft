@@ -9,7 +9,23 @@
     background-color: #4ab9b3 !important;
 }
 
+.bg-color2 {
+    background-color: #389a95 !important;
+}
+
 .page-item.active .page-link {
     background-color: #4ab9b3;
     border-color: #4ab9b3;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #4ab9b3;
+}
+
+.accordion-button {
+    background-color: #f7f7f7;
+}
+
+.w100 {
+    width: 100%;
 }

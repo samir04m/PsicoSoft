@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Formulario de Cuenta{% endblock %}
+{% block title %}Mis Pacientes{% endblock %}
 
 {% block contenido %}
     <h3 class="mb-4">Hola, {{request.user.first_name}}</h3>
@@ -37,7 +37,7 @@
                                 <td>{{p.tipoDocumento}} {{p.numeroDocumento}}</td>
                                 <td>{{p.nombres}} {{p.apellidos}}</td>
                                 <td>
-                                    <a href="{% url 'main:PacienteCreate' p.id %}" class="btn btn-sm btn-outline-success"><i class="bi bi-pencil"></i></a>
+                                    <a href="{% url 'main:PacienteUpdate' p.id %}" class="btn btn-sm btn-outline-success"><i class="bi bi-pencil"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -59,7 +59,7 @@
                     <h5 class="modal-title" id="modalAddPacienteLabel">Agregar paciente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{% url 'main:PacienteSave' %}">
+                <form method="POST" action="{% url 'main:PacienteCreate' %}">
                     {% csrf_token %}
                     <div class="modal-body">
                         <div class="mb-3">
@@ -74,14 +74,14 @@
                             <div class="col mb-3">
                                 <label for="tipoDocumento" class="form-label">Tipo de documento &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
-                                    <option value="CC">CC</option>
-                                    <option value="TI">TI</option>
-                                    <option value="RC">RC</option>
+                                    {% for e in selectTipoDocumento %}
+                                        <option value="{{e.nombre}}">{{e.nombre}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col mb-3">
                                 <label for="numeroDocumento" class="form-label">Número de documento</label>
-                                <input type="number" class="form-control" id="numeroDocumento" name="numeroDocumento" required>
+                                <input type="number" class="form-control" id="numeroDocumento" name="numeroDocumento" autocomplete="off" required>
                             </div>
                         </div>
                     </div>

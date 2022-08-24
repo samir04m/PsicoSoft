@@ -1,0 +1,267 @@
+{% extends 'base/base.html' %}
+{% load myTags %}
+
+{% block title %} Historia clinica del paciente{% endblock %}
+
+{% block contenido %}
+    <h3 class="text-center mt-2">Historia Clínica: {{paciente.nombres}} {{paciente.apellidos}}</h3>
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading0">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse0" aria-expanded="false" aria-controls="collapse0">
+                                Infomación básica
+                            </button>
+                        </h2>
+                        <div id="collapse0" class="accordion-collapse collapse" aria-labelledby="heading0"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="nombres" class="form-label">Nombres</label>
+                                        <input type="text" class="form-control" id="nombres" name="nombres" value="{{paciente.nombres|getValue}}" required>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="apellidos" class="form-label">Apellidos</label>
+                                        <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{paciente.apellidos|getValue}}" required>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="tipoDocumento" class="form-label">Tipo de documento</label>
+                                        <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
+                                            {% for e in selectData.selectTipoDocumento %}
+                                                <option value="{{e.nombre}}" {{e.selected}}>{{e.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="numeroDocumento" class="form-label">Número de documento</label>
+                                        <input type="number" class="form-control" id="numeroDocumento" name="numeroDocumento" value="{{paciente.numeroDocumento|getValue}}" autocomplete="off" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1"
+                                aria-expanded="true" aria-controls="collapse1">
+                                Identificación
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                                        <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" value="{{paciente.fechaNacimiento|getValue}}">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="sexo" class="form-label">Sexo</label>
+                                        <select class="form-select" id="sexo" name="sexo">
+                                            {% for e in selectData.selectSexo %}
+                                                <option value="{{e.nombre}}" {{e.selected}}>{{e.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="estadoCivil" class="form-label">Estado civil</label>
+                                        <select class="form-select" id="estadoCivil" name="estadoCivil">
+                                            {% for e in selectData.selectEstadoCivil %}
+                                                <option value="{{e.nombre}}" {{e.selected}}>{{e.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="direccion" class="form-label">Dirección</label>
+                                        <input type="text" class="form-control" id="direccion" name="direccion" value="{{paciente.direccion|getValue}}" autocomplete="off">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="celular" class="form-label">Celular</label>
+                                        <input type="number" class="form-control" id="celular" name="celular" value="{{paciente.celular|getValue}}" autocomplete="off" required>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="telefono" class="form-label">Teléfono</label>
+                                        <input type="number" class="form-control" id="telefono" name="telefono" value="{{paciente.telefono|getValue}}" autocomplete="off">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="nivelEducativo" class="form-label">Nivel Educativo</label>
+                                        <input type="text" class="form-control" id="nivelEducativo" name="nivelEducativo" value="{{paciente.nivelEducativo|getValue}}">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="ocupacion" class="form-label">Ocupacion</label>
+                                        <input type="text" class="form-control" id="ocupacion" name="ocupacion" value="{{paciente.ocupacion|getValue}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                Motivo de consulta
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="motivoConsulta" class="form-label">Motivo de consulta</label> -->
+                                    <textarea class="form-control " id="motivoConsulta" name="motivoConsulta" rows="8" placeholder="Motivo de consulta" required>{{paciente.motivoConsulta|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                Antecedentes personales
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="antecedentesPersonales" class="form-label">Antecedentes personales</label> -->
+                                    <textarea class="form-control " id="antecedentesPersonales" name="antecedentesPersonales" rows="8" placeholder="Antecedentes personales">{{paciente.antecedentesPersonales|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                Antecedentes familiares
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="antecedentesFamiliares" class="form-label">Antecedentes familiares</label> -->
+                                    <textarea class="form-control " id="antecedentesFamiliares" name="antecedentesFamiliares" rows="8" placeholder="Antecedentes familiares">{{paciente.antecedentesFamiliares|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                Antecedentes sociales
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="antecedentesSociales" class="form-label">Antecedentes sociales</label> -->
+                                    <textarea class="form-control " id="antecedentesSociales" name="antecedentesSociales" rows="8" placeholder="Antecedentes sociales">{{paciente.antecedentesSociales|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading6">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                Historia personal
+                            </button>
+                        </h2>
+                        <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="historiaPersonal" class="form-label">Historia personal</label> -->
+                                    <textarea class="form-control " id="historiaPersonal" name="historiaPersonal" rows="8" placeholder="Historia personal">{{paciente.historiaPersonal|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading7">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                Impresión diagnostica
+                            </button>
+                        </h2>
+                        <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="impresionDiagnostica" class="form-label">Impresion diagnostica</label> -->
+                                    <textarea class="form-control " id="impresionDiagnostica" name="impresionDiagnostica" rows="8" placeholder="Impresion diagnostica">{{paciente.impresionDiagnostica|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading8">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                Diagnóstico
+                            </button>
+                        </h2>
+                        <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label for="diagnostico" class="form-label">Selecciona el Diagnóstico</label>
+                                    <select class="form-select" id="diagnostico" name="diagnostico" required>
+                                        {% for e in selectData.selectDiagnostico %}
+                                            <option value="{{e.id}}" {{e.selected}}>{{e.nombre}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading9">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                Análisis
+                            </button>
+                        </h2>
+                        <div id="collapse9" class="accordion-collapse collapse" aria-labelledby="heading9"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="analisis" class="form-label">Análisis</label> -->
+                                    <textarea class="form-control " id="analisis" name="analisis" rows="8" placeholder="Análisis" required>{{paciente.analisis|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading10">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                                Plan de trabajo
+                            </button>
+                        </h2>
+                        <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="mb-3 col-sm-12">
+                                    <!-- <label for="planTrabajo" class="form-label">Plan de trabajo</label> -->
+                                    <textarea class="form-control " id="planTrabajo" name="planTrabajo" rows="8" placeholder="Plan de trabajo" required>{{paciente.planTrabajo|getValue}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-info"><i class="bi bi-check-circle"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>    
+{% endblock %}

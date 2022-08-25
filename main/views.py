@@ -96,6 +96,7 @@ def PacienteUpdate(request, id):
             paciente.analisis = request.POST.get('analisis')
             paciente.planTrabajo = request.POST.get('planTrabajo')
             paciente.save()
+            # raise ValueError("Exetion de prueba.")
             messages.success(request, 'La información del paciente se guardo correctamente.', extra_tags='success')
         except Exception as e:
             saveLog(request.user, "No se pudo actualizar Paciente. Metodo PacienteUpdate", e)

@@ -7,7 +7,7 @@
     <h3 class="text-center mt-2">Historia Clínica: {{paciente.nombres}} {{paciente.apellidos}}</h3>
     <div class="card shadow">
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" id="formUpdatePaciente">
                 {% csrf_token %}
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
@@ -258,11 +258,17 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-info"><i class="bi bi-check-circle"></i> Guardar</button>
-                </div>
             </form>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-info" onclick="btnUpdatePaciente()"><i class="bi bi-check-circle"></i> Guardar</button>
+                </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+
+    </script>
 {% endblock %}
 

@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <div class="container pt-5">
+    <div class="container pt-5 mt-5">
         <div class="row">
             <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-4 col-lg-4">
                 <div class="card">
@@ -52,7 +52,15 @@
         </div>
     </div>
 
+    {% include 'alertToast.html' %}
+
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'js/myScript.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#toastRespuesta').toast('show');
+        });
+    </script>
 </body>
 </html>

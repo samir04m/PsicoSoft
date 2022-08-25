@@ -24,8 +24,9 @@ def Login(request):
             login(request, user)
             return HttpResponseRedirect('/pacientes')
         else:
-            alert = Alert("El usuario o la contraseña son incorrectos.", "danger")
-            return render(request, 'login.html', {"username": username, "alert": alert})
+            messages.error(request, 'El usuario o la contraseña son incorrectos.', extra_tags='danger')
+            # return render(request, 'login.html', {"username": username})
+            return redirect('main:login')
     else:
         return render(request, 'login.html')
 

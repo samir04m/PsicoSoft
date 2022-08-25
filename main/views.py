@@ -11,7 +11,7 @@ from .functions import *
 from .models import *
 
 def Index(request):
-    return render(request, 'index.html')
+    return redirect('main:PacienteList')
 
 def Login(request):
     if request.user.is_authenticated:

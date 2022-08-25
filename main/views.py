@@ -22,7 +22,11 @@ def Login(request):
         user = authenticate(username=username, password=password)
         if user:
             login(request, user)
-            return HttpResponseRedirect('/pacientes')
+            if not user.is_staff:
+                psicologo = Psicologo.objects.filter(usuario=user).first()
+                if not psicologo:
+                    return redirect('main:CompletarRegistro')
+            return redirect('main:PacienteList')
         else:
             messages.error(request, 'El usuario o la contraseña son incorrectos.', extra_tags='danger')
             # return render(request, 'login.html', {"username": username})
@@ -33,6 +37,30 @@ def Login(request):
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/login')
+
+@login_required(login_url='/login/')
+def CompletarRegistro(request):
+    if request.method == 'POST':
+        try:
+            usuario = request.user
+            usuario.first_name = request.POST.get('first_name')
+            usuario.last_name = request.POST.get('last_name')
+            usuario.save()
+            psicologo = Psicologo(
+                usuario = request.user,
+                numeroTarjetaProfesional = request.POST.get('numeroTarjetaProfesional'),
+                firma = request.FILES.get('firma'),
+                logo = request.FILES.get('logo')
+            )
+            psicologo.save()
+            messages.success(request, 'Tu registro se completo exitosamente.', extra_tags='success')
+            return redirect('main:PacienteList')
+        except Exception as e:
+            saveLog(request.user, "No guardar informacion del psicologo. Metodo CompletarRegistro", e)
+            messages.error(request, 'No fue posible guardar la información. Intente de nuevo.', extra_tags='danger')
+            return redirect('main:CompletarRegistro')
+    else:
+        return render(request, 'completarRegistro.html')
 
 @login_required(login_url='/login/')
 def PacienteList(request):

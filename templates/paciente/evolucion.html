@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% load myTags %}
+
+{% block title %}Evolución{% endblock %}
+
+{% block contenido %}
+    <h4 class="text-center my-2">Evolución del paciente</h4>
+    <div class="card shadow">
+        <div class="card-body">
+            <p class="fs-5"> 
+                <b>Paciente:</b> {{paciente.nombres}} {{paciente.apellidos}}
+                <a href="{% url 'main:PacienteDetails' paciente.id %}" class="btn btn-outline-primary btn-sm mx-2" target="_blank">Ver historia clínica <i class="bi bi-box-arrow-up-right"></i></a>
+            </p>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="evolucion" class="form-label">Descripción de la evolución</label>
+                    <textarea class="form-control " id="evolucion" name="evolucion" rows="8"></textarea>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-info"><i class="bi bi-check-circle"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% include 'alertToast.html' %}
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#toastRespuesta').toast('show');
+        });
+    </script>
+{% endblock %}

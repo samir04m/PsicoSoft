@@ -101,7 +101,6 @@ def PacienteUpdate(request, id):
         "selectData": selectData
     }
     if request.method == 'POST':
-        print(obtenerFecha(request.POST.get('fechaNacimiento')))
         try:
             paciente.nombres = request.POST.get('nombres')
             paciente.apellidos = request.POST.get('apellidos')
@@ -126,7 +125,7 @@ def PacienteUpdate(request, id):
             paciente.planTrabajo = request.POST.get('planTrabajo')
             paciente.save()
             # raise ValueError("Exetion de prueba.")
-            messages.success(request, 'La información del paciente se guardo correctamente.', extra_tags='success')
+            messages.success(request, 'La información del paciente se guardó correctamente.', extra_tags='success')
         except Exception as e:
             saveLog(request.user, "No se pudo actualizar Paciente. Metodo PacienteUpdate", e)
             messages.error(request, 'No fue posible guardar la información del paciente.', extra_tags='danger')
@@ -136,8 +135,23 @@ def PacienteUpdate(request, id):
     return render(request, 'paciente/update.html', context)
 
 @login_required(login_url='/login/')
-def PacienteEvolucion(request):
-    return render(request, 'paciente/evolucion.html')
+def PacienteEvolucion(request, id):
+    paciente = get_object_or_404(Paciente, id=id)
+    if request.method == 'POST':
+        try:
+            evolucion = Evolucion(
+                paciente = paciente,
+                descripcion = request.POST.get('evolucion'),
+                fecha = datetime.now()
+            )
+            evolucion.save()
+            messages.success(request, 'Se guardó la evolución del paciente.', extra_tags='success')
+        except Exception as e:
+            saveLog(request.user, "No se pudo guardar evolucion del Paciente. Metodo PacienteEvolucion", e)
+            messages.error(request, 'No fue posible guardar la evolución del paciente.', extra_tags='danger')
+        return redirect('main:PacienteList')
+    
+    return render(request, 'paciente/evolucion.html', {"paciente": paciente})
 
 @login_required(login_url='/login/')
 def PacienteDetails(request):

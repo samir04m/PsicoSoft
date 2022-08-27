@@ -121,7 +121,7 @@ def PacienteUpdate(request, id):
             paciente.antecedentesSociales = request.POST.get('antecedentesSociales')
             paciente.historiaPersonal = request.POST.get('historiaPersonal')
             paciente.impresionDiagnostica = request.POST.get('impresionDiagnostica')
-            paciente.diagnostico = Diagnostico.objects.filter(id=request.POST.get('diagnostico')).first()
+            paciente.diagnostico = getDiagnostico(request.POST.get('diagnostico'), request.POST.get('nuevoDiagnostico'))
             paciente.analisis = request.POST.get('analisis')
             paciente.planTrabajo = request.POST.get('planTrabajo')
             paciente.save()
@@ -134,3 +134,11 @@ def PacienteUpdate(request, id):
         return redirect('main:PacienteList')
 
     return render(request, 'paciente/update.html', context)
+
+@login_required(login_url='/login/')
+def PacienteEvolucion(request):
+    return render(request, 'paciente/evolucion.html')
+
+@login_required(login_url='/login/')
+def PacienteDetails(request):
+    return render(request, 'paciente/details.html')

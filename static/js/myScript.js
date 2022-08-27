@@ -14,6 +14,7 @@ function btnUpdatePaciente() {
     celular = document.getElementById("celular").value;
     motivoConsulta = document.getElementById("motivoConsulta").value;
     diagnostico = document.getElementById("diagnostico").value;
+    nuevoDiagnostico = document.getElementById("nuevoDiagnostico").value;
     analisis = document.getElementById("analisis").value;
     planTrabajo = document.getElementById("planTrabajo").value;
 
@@ -25,7 +26,7 @@ function btnUpdatePaciente() {
     if (fechaNacimiento == "") mensaje += " - Fecha de nacimiento.\n";
     if (celular == "") mensaje += " - Celular.\n";
     if (motivoConsulta == "") mensaje += " - Motivo de consulta.\n";
-    if (diagnostico == "") mensaje += " - Diagnóstico.\n";
+    if (diagnostico == "" && nuevoDiagnostico == "") mensaje += " - Diagnóstico.\n";
     if (analisis == "") mensaje += " - Análisis.\n";
     if (planTrabajo == "") mensaje += " - Plan de trabajo.\n";
 

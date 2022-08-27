@@ -19,6 +19,16 @@ def obtenerFecha(fecha):
     date = datetime(int(splited[0]), int(splited[1]), int(splited[2]))
     return date
 
+def getDiagnostico(diagnosticoId, nuevoDiagnostico):
+    if nuevoDiagnostico:
+        newDiagnostico = Diagnostico(
+            nombre = nuevoDiagnostico
+        )
+        newDiagnostico.save()
+        return newDiagnostico
+    else:
+        return Diagnostico.objects.filter(id=diagnosticoId).first()
+
 def GetSelectData(paciente):
     tipos = ["", "CC", "TI", "RC"]
     selectTipoDocumento = []

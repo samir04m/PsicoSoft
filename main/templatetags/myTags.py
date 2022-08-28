@@ -1,3 +1,4 @@
+from datetime import date
 from django import template
 register = template.Library()
 
@@ -7,3 +8,9 @@ def getValue(value):
         return ""
     else:
         return value
+
+@register.filter
+def getEdad(fechaNacimiento):
+    today = date.today() 
+    edad = today.year - fechaNacimiento.year - ((today.month, today.day) < (fechaNacimiento.month, fechaNacimiento.day))
+    return edad

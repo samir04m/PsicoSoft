@@ -1,0 +1,154 @@
+{% extends 'base/base.html' %}
+{% load myTags %}
+
+{% block title %}Historia Clínica - {{paciente.nombres}} {{paciente.apellidos}}{% endblock %}
+
+{% block contenido %}
+    <div class="border border-dark my-2 p-2" style="overflow: auto;">
+        <img src="{{ psicologo.logo.url }}" alt="logo" class="img-fluid float-start" style="height: 100px;" >
+        <h4 class="text-center pt-3">
+            ATENCIÓN PSICOLÓGICA <br>
+            HISTORIA CLÍNICA
+        </h4>
+    </div>
+    <div class="border border-dark my-2 px-2">
+        <h6 class="text-center pt-2">IDENTIFICACIÓN DEL PACIENTE</h6>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-responsive-sm table-borderless datosHistoriaClinica" >
+                    <tbody>
+                        <tr>
+                            <th>Nombre:</th>
+                            <td>{{paciente.nombres}} {{paciente.apellidos}}</td>
+                        </tr>
+                        <tr>
+                            <th>Documento:</th>
+                            <td>{{paciente.tipoDocumento}} {{paciente.numeroDocumento}}</td>
+                        </tr>
+                        <tr>
+                            <th>Fecha de nacimiento:</th>
+                            <td>{{paciente.fechaNacimiento|date:'d/m/Y'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Edad:</th>
+                            <td>{{paciente.fechaNacimiento|getEdad}} años</td>
+                        </tr>
+                        <tr>
+                            <th>Sexo:</th>
+                            <td>{{paciente.sexo}}</td>
+                        </tr>
+                        <tr>
+                            <th>Estado civil:</th>
+                            <td>{{paciente.estadoCivil}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-responsive-sm table-borderless datosHistoriaClinica" >
+                    <tbody>                            
+                        <tr>
+                            <th>Dirección:</th>
+                            <td>{{paciente.direccion}}</td>
+                        </tr>
+                        <tr>
+                            <th>Celular:</th>
+                            <td>{{paciente.celular}}</td>
+                        </tr>
+                        <tr>
+                            <th>Teléfono:</th>
+                            <td>{{paciente.telefono}}</td>
+                        </tr>
+                        <tr>
+                            <th>Nivel educativo:</th>
+                            <td>{{paciente.nivelEducativo}}</td>
+                        </tr>
+                        <tr>
+                            <th>Ocupación:</th>
+                            <td>{{paciente.ocupacion}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="border border-dark my-2 px-4">
+        <table class="table table-responsive-sm table-borderless" >
+            <tbody>                            
+                <tr>
+                    <th>Motivo de consulta:</th>
+                    <td>{{paciente.motivoConsulta}}</td>
+                </tr>
+                <tr>
+                    <th>Antecedentes personales:</th>
+                    <td>{{paciente.antecedentesPersonales}}</td>
+                </tr>
+                <tr>
+                    <th>Antecedentes familiares:</th>
+                    <td>{{paciente.antecedentesFamiliares}}</td>
+                </tr>
+                <tr>
+                    <th>Antecedentes sociales:</th>
+                    <td>{{paciente.antecedentesSociales}}</td>
+                </tr>
+                <tr>
+                    <th>Historia Personal:</th>
+                    <td>{{paciente.historiaPersonal}}</td>
+                </tr>
+                <tr>
+                    <th>Impresión Diagnóstica:</th>
+                    <td>{{paciente.impresionDiagnostica}}</td>
+                </tr>
+                <tr>
+                    <th>Diagnóstico:</th>
+                    <td>{{paciente.diagnostico}}</td>
+                </tr>
+                <tr>
+                    <th>Análisis:</th>
+                    <td>{{paciente.analisis}}</td>
+                </tr>
+                <tr>
+                    <th>Plan de trabajo:</th>
+                    <td>{{paciente.planTrabajo}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% if paciente.evolucion_set.all %}
+        <div class="border border-dark my-2 px-4">
+            <h6 class="text-center pt-2">EVOLUCIÓN</h6>
+            <table class="table table-responsive-sm table-borderless" >
+                <tbody>
+                    {% for e in paciente.evolucion_set.all %}                            
+                        <tr>
+                            <th>Fecha: {{e.fecha|date:'l, d \d\e F \d\e\l Y'}}</th>
+                            <td>{{e.descripcion}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <div class="my-2 px-4">
+        <p class="mb-1">
+            <b>Firma:</b> <img src="{{ psicologo.firma.url }}" alt="" style="height: 80px;">
+        </p>
+        <p class="mb-1"><b>Nombre:</b> {{request.user.first_name}} {{request.user.last_name}}</p>
+        <p class="mb-1"><b>Tarjeta profesional:</b> {{psicologo.numeroTarjetaProfesional}}</p>
+    </div>
+    <div class="my-2 text-center">
+        Fecha: {{today|date:'d \d\e F \d\e\l Y'}}
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+        
+        });
+    </script>
+{% endblock %}

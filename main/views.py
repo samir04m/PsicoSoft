@@ -116,7 +116,7 @@ def PacienteUpdate(request, id):
             paciente.ocupacion = request.POST.get('ocupacion')
             paciente.motivoConsulta = request.POST.get('motivoConsulta')
             paciente.antecedentesPersonales = request.POST.get('antecedentesPersonales')
-            paciente.antecedentesPersonales = request.POST.get('antecedentesPersonales')
+            paciente.antecedentesFamiliares = request.POST.get('antecedentesFamiliares')
             paciente.antecedentesSociales = request.POST.get('antecedentesSociales')
             paciente.historiaPersonal = request.POST.get('historiaPersonal')
             paciente.impresionDiagnostica = request.POST.get('impresionDiagnostica')
@@ -154,5 +154,12 @@ def PacienteEvolucion(request, id):
     return render(request, 'paciente/evolucion.html', {"paciente": paciente})
 
 @login_required(login_url='/login/')
-def PacienteDetails(request):
-    return render(request, 'paciente/details.html')
+def PacienteDetails(request, id):
+    paciente = get_object_or_404(Paciente, id=id)
+    context = {
+        "paciente": paciente, 
+        "psicologo": Psicologo.objects.filter(usuario=request.user).first(),
+        "today": datetime.now()
+    }
+    print(paciente.evolucion_set.all())
+    return render(request, 'paciente/details.html', context)

@@ -29,3 +29,11 @@
 .w100 {
     width: 100%;
 }
+
+table.datosHistoriaClinica > tbody > tr > th, table.datosHistoriaClinica > tbody > tr > td {
+    padding: 2px 12px;
+}
+
+.sectionHistoriaClinica hr {
+    border-top: 2px solid grey;
+}

@@ -30,10 +30,9 @@ def Login(request):
             return redirect('main:PacienteList')
         else:
             messages.error(request, 'El usuario o la contraseña son incorrectos.', extra_tags='danger')
-            # return render(request, 'login.html', {"username": username})
             return redirect('main:login')
     else:
-        return render(request, 'login.html')
+        return render(request, 'usuario/login.html')
 
 def Logout(request):
     logout(request)
@@ -51,7 +50,7 @@ def change_password(request):
             messages.error(request, 'Corrige los errores para cambiar tu contraseña.', extra_tags='danger')
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'change_password.html', {
+    return render(request, 'usuario/change_password.html', {
         'form': form
     })
 
@@ -77,7 +76,7 @@ def CompletarRegistro(request):
             messages.error(request, 'No fue posible guardar la información. Intente de nuevo.', extra_tags='danger')
             return redirect('main:CompletarRegistro')
     else:
-        return render(request, 'completarRegistro.html')
+        return render(request, 'usuario/completarRegistro.html')
 
 @login_required(login_url='/login/')
 def PacienteList(request):

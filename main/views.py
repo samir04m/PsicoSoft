@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from datetime import datetime
@@ -37,6 +38,22 @@ def Login(request):
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/login')
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Tu contraseña se cambio correctamente.', extra_tags='success')
+            return redirect('main:change_password')
+        else:
+            messages.error(request, 'Corrige los errores para cambiar tu contraseña.', extra_tags='danger')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {
+        'form': form
+    })
 
 @login_required(login_url='/login/')
 def CompletarRegistro(request):

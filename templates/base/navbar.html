@@ -20,7 +20,7 @@
                         <i class="bi bi-person"></i> {{ request.user }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Cambiar contraseña</a></li>
+                        <li><a class="dropdown-item" href="{% url 'main:change_password' %}">Cambiar contraseña</a></li>
                         <li><a class="dropdown-item" href="#">Ajustes de cuenta</a></li>
                         <li>
                             <hr class="dropdown-divider">

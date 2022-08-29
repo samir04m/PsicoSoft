@@ -1,11 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from PIL import Image
 
 class Psicologo(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     numeroTarjetaProfesional = models.CharField(max_length=50)
     firma = models.ImageField(upload_to="firmas", null=True, blank=True)
     logo = models.ImageField(upload_to="logos", null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        super(Psicologo, self).save(*args, **kwargs)
+        if self.firma:
+            image = Image.open(self.firma.path)
+            image.save(self.firma.path, quality=20, optimize=True)
+        if self.logo:
+            image = Image.open(self.logo.path)
+            image.save(self.logo.path, quality=20, optimize=True)
+
 
 class Diagnostico(models.Model):
     nombre = models.CharField(max_length=200)

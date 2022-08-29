@@ -6,23 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesión • PsicoSoft</title>
+    <link rel="icon" type="image/png" href="{% static 'images/logo2.png' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/myStyles.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/myStyles.css' %}"> -->
 
     <style rel="stylesheet">
         body {
-            background-color: #4ab9b3;
+            background-color: #f1f1f1;
+            /* background-color: #4ab9b3; */
             /* background-color: #2bc6c4; */
+        }
+        .btn-info {
+            color: white;
+            background-color: #2bc6c4 !important;
+            border-color: #2bc6c4 !important;
         }
     </style>
 </head>
 <body>
-    <div class="container pt-5 mt-5">
+    <div class="container pt-5">
         <div class="row">
             <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-4 col-lg-4">
-                <div class="card animate__animated animate__zoomIn">
+                <div class="text-center mb-5">
+                    <img src="{% static 'images/logo2.png' %}" alt="logo" width="100px" class="animate__animated animate__fadeInDown">
+                </div>
+                <div class="card shadow animate__animated animate__zoomIn">
                     <div class="card-body">
                         <h5 class="card-title text-center mb-4">Inicio de sesión</h5>
                         

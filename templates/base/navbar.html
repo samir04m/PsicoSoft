@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" >
     <div class="container">
         <a class="navbar-brand" href="{% url 'main:Index' %}">
-            <img src="{% static 'images/logo.png' %}" alt="logo" width="30" height="30" class="d-inline-block align-text-top">
+            <img src="{% static 'images/logo2.png' %}" alt="logo" width="25" height="25" class="d-inline-block align-text-top">
             PsicoSoft 
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'main:PacienteList' %}">Pacientes</a>
+                    <a class="nav-link" href="{% url 'main:PacienteList' %}">Mis Pacientes</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -21,7 +21,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'main:change_password' %}">Cambiar contraseña</a></li>
-                        <li><a class="dropdown-item" href="#">Ajustes de cuenta</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Ajustes de cuenta</a></li> -->
                         <li>
                             <hr class="dropdown-divider">
                         </li>

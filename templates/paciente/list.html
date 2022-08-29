@@ -44,8 +44,8 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="text-center">
-                    <p>No hay pacientes para mostrar</p>
+                <div class="text-center py-5 my-5">
+                    <p>Todavía no has agregado a tu primer paciente.</p>
                 </div>
             {% endif %}
         </div>
@@ -101,7 +101,9 @@
 {% block script %}
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                order: []
+            });
             $('#toastRespuesta').toast('show');
         });
     </script>

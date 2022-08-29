@@ -19,6 +19,13 @@ def obtenerFecha(fecha):
     date = datetime(int(splited[0]), int(splited[1]), int(splited[2]))
     return date
 
+def existeDocumento(tipo, numero):
+    paciente = Paciente.objects.filter(tipoDocumento=tipo, numeroDocumento=numero)
+    if paciente:
+        return True
+    else:
+        return False
+
 def getDiagnostico(diagnosticoId, nuevoDiagnostico):
     if nuevoDiagnostico:
         newDiagnostico = Diagnostico(

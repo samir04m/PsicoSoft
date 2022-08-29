@@ -20,7 +20,7 @@ def Login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=username.lower(), password=password)
         if user:
             login(request, user)
             if not user.is_staff:
@@ -59,8 +59,8 @@ def CompletarRegistro(request):
     if request.method == 'POST':
         try:
             usuario = request.user
-            usuario.first_name = request.POST.get('first_name')
-            usuario.last_name = request.POST.get('last_name')
+            usuario.first_name = request.POST.get('first_name').title()
+            usuario.last_name = request.POST.get('last_name').title()
             usuario.save()
             psicologo = Psicologo(
                 usuario = request.user,
@@ -80,7 +80,7 @@ def CompletarRegistro(request):
 
 @login_required(login_url='/login/')
 def PacienteList(request):
-    pacientes = Paciente.objects.filter(usuario = request.user)
+    pacientes = Paciente.objects.filter(usuario = request.user).order_by('-id')
     context = {
         "pacientes": pacientes,
         "selectTipoDocumento": GetSelectTipoDocumento()
@@ -90,21 +90,26 @@ def PacienteList(request):
 @login_required(login_url='/login/')
 def PacienteCreate(request):
     if request.method == 'POST':
-        try:
-            paciente = Paciente(
-                usuario = request.user,
-                nombres = request.POST.get('nombres'),
-                apellidos = request.POST.get('apellidos'),
-                tipoDocumento = request.POST.get('tipoDocumento'),
-                numeroDocumento = request.POST.get('numeroDocumento'),
-                fecha = datetime.now()
-            )
-            paciente.save()
-            return redirect('main:PacienteUpdate', paciente.id)
-        except Exception as e:
-            saveLog(request.user, "No se pudo crear Paciente. Metodo PacienteCreate", e)
-            messages.error(request, 'No fue posible crear el Paciente. Intente de nuevo.', extra_tags='danger')
-            return redirect('main:PacienteList')
+        tipoDocumento = request.POST.get('tipoDocumento')
+        numeroDocumento = request.POST.get('numeroDocumento')
+        if not existeDocumento(tipoDocumento, numeroDocumento):
+            try:
+                paciente = Paciente(
+                    usuario = request.user,
+                    nombres = request.POST.get('nombres').title(),
+                    apellidos = request.POST.get('apellidos').title(),
+                    tipoDocumento = tipoDocumento,
+                    numeroDocumento = numeroDocumento,
+                    fecha = datetime.now()
+                )
+                paciente.save()
+                return redirect('main:PacienteUpdate', paciente.id)
+            except Exception as e:
+                saveLog(request.user, "No se pudo crear Paciente. Metodo PacienteCreate", e)
+                messages.error(request, 'No fue posible crear el Paciente. Intente de nuevo.', extra_tags='danger')
+        else:
+            messages.error(request, 'Ya existe un paciente con este tipo y número de documento.', extra_tags='danger')
+        return redirect('main:PacienteList')
     else:
         return HttpResponseRedirect('/pacientes')
 
@@ -118,27 +123,27 @@ def PacienteUpdate(request, id):
     }
     if request.method == 'POST':
         try:
-            paciente.nombres = request.POST.get('nombres')
-            paciente.apellidos = request.POST.get('apellidos')
+            paciente.nombres = request.POST.get('nombres').title()
+            paciente.apellidos = request.POST.get('apellidos').title()
             paciente.tipoDocumento = request.POST.get('tipoDocumento')
             paciente.numeroDocumento = request.POST.get('numeroDocumento')
             paciente.fechaNacimiento = obtenerFecha(request.POST.get('fechaNacimiento'))
             paciente.sexo = request.POST.get('sexo')
             paciente.estadoCivil = request.POST.get('estadoCivil')
-            paciente.direccion = request.POST.get('direccion')
+            paciente.direccion = request.POST.get('direccion').capitalize()
             paciente.celular = request.POST.get('celular')
             paciente.telefono = request.POST.get('telefono')
-            paciente.nivelEducativo = request.POST.get('nivelEducativo')
-            paciente.ocupacion = request.POST.get('ocupacion')
-            paciente.motivoConsulta = request.POST.get('motivoConsulta')
-            paciente.antecedentesPersonales = request.POST.get('antecedentesPersonales')
-            paciente.antecedentesFamiliares = request.POST.get('antecedentesFamiliares')
-            paciente.antecedentesSociales = request.POST.get('antecedentesSociales')
-            paciente.historiaPersonal = request.POST.get('historiaPersonal')
-            paciente.impresionDiagnostica = request.POST.get('impresionDiagnostica')
-            paciente.diagnostico = getDiagnostico(request.POST.get('diagnostico'), request.POST.get('nuevoDiagnostico'))
-            paciente.analisis = request.POST.get('analisis')
-            paciente.planTrabajo = request.POST.get('planTrabajo')
+            paciente.nivelEducativo = request.POST.get('nivelEducativo').capitalize()
+            paciente.ocupacion = request.POST.get('ocupacion').capitalize()
+            paciente.motivoConsulta = request.POST.get('motivoConsulta').capitalize()
+            paciente.antecedentesPersonales = request.POST.get('antecedentesPersonales').capitalize()
+            paciente.antecedentesFamiliares = request.POST.get('antecedentesFamiliares').capitalize()
+            paciente.antecedentesSociales = request.POST.get('antecedentesSociales').capitalize()
+            paciente.historiaPersonal = request.POST.get('historiaPersonal').capitalize()
+            paciente.impresionDiagnostica = request.POST.get('impresionDiagnostica').capitalize()
+            paciente.diagnostico = getDiagnostico(request.POST.get('diagnostico'), request.POST.get('nuevoDiagnostico').capitalize())
+            paciente.analisis = request.POST.get('analisis').capitalize()
+            paciente.planTrabajo = request.POST.get('planTrabajo').capitalize()
             paciente.save()
             # raise ValueError("Exetion de prueba.")
             messages.success(request, 'La información del paciente se guardó correctamente.', extra_tags='success')
@@ -157,7 +162,7 @@ def PacienteEvolucion(request, id):
         try:
             evolucion = Evolucion(
                 paciente = paciente,
-                descripcion = request.POST.get('evolucion'),
+                descripcion = request.POST.get('evolucion').capitalize(),
                 fecha = datetime.now()
             )
             evolucion.save()

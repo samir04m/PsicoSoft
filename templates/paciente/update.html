@@ -4,7 +4,9 @@
 {% block title %} Historia clinica del paciente{% endblock %}
 
 {% block contenido %}
-    <h3 class="text-center mt-2 animate__animated animate__fadeInDown">Historia Clínica: {{paciente.nombres}} {{paciente.apellidos}}</h3>
+    <h3 class="text-center mt-2 animate__animated animate__fadeInDown">
+        Historia Clínica: {{paciente.nombres}} {{paciente.apellidos}}
+    </h3>
     <div class="card shadow animate__animated animate__fadeInUp">
         <div class="card-body">
             <form method="POST" id="formUpdatePaciente">

@@ -5,7 +5,9 @@
 
 {% block contenido %}
     <div class="border border-dark my-2 p-2" style="overflow: auto;">
-        <img src="{{ psicologo.logo.url }}" alt="logo" class="img-fluid float-start" style="height: 100px;" >
+        {% if psicologo.logo %}
+            <img src="{{ psicologo.logo.url }}" alt="logo" class="img-fluid float-start" style="height: 100px;" >
+        {% endif %}
         <h4 class="text-center pt-3">
             ATENCIÓN PSICOLÓGICA <br>
             HISTORIA CLÍNICA
@@ -31,15 +33,15 @@
                         </tr>
                         <tr>
                             <th>Edad:</th>
-                            <td>{{paciente.fechaNacimiento|getEdad}} años</td>
+                            <td>{{paciente.fechaNacimiento|getEdad}}</td>
                         </tr>
                         <tr>
                             <th>Sexo:</th>
-                            <td>{{paciente.sexo}}</td>
+                            <td>{{paciente.sexo|getValue}}</td>
                         </tr>
                         <tr>
                             <th>Estado civil:</th>
-                            <td>{{paciente.estadoCivil}}</td>
+                            <td>{{paciente.estadoCivil|getValue}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -49,23 +51,23 @@
                     <tbody>                            
                         <tr>
                             <th>Dirección:</th>
-                            <td>{{paciente.direccion}}</td>
+                            <td>{{paciente.direccion|getValue}}</td>
                         </tr>
                         <tr>
                             <th>Celular:</th>
-                            <td>{{paciente.celular}}</td>
+                            <td>{{paciente.celular|getValue}}</td>
                         </tr>
                         <tr>
                             <th>Teléfono:</th>
-                            <td>{{paciente.telefono}}</td>
+                            <td>{{paciente.telefono|getValue}}</td>
                         </tr>
                         <tr>
                             <th>Nivel educativo:</th>
-                            <td>{{paciente.nivelEducativo}}</td>
+                            <td>{{paciente.nivelEducativo|getValue}}</td>
                         </tr>
                         <tr>
                             <th>Ocupación:</th>
-                            <td>{{paciente.ocupacion}}</td>
+                            <td>{{paciente.ocupacion|getValue}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -78,39 +80,39 @@
             <tbody>                            
                 <tr>
                     <th>Motivo de consulta:</th>
-                    <td>{{paciente.motivoConsulta}}</td>
+                    <td>{{paciente.motivoConsulta|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Antecedentes personales:</th>
-                    <td>{{paciente.antecedentesPersonales}}</td>
+                    <td>{{paciente.antecedentesPersonales|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Antecedentes familiares:</th>
-                    <td>{{paciente.antecedentesFamiliares}}</td>
+                    <td>{{paciente.antecedentesFamiliares|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Antecedentes sociales:</th>
-                    <td>{{paciente.antecedentesSociales}}</td>
+                    <td>{{paciente.antecedentesSociales|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Historia Personal:</th>
-                    <td>{{paciente.historiaPersonal}}</td>
+                    <td>{{paciente.historiaPersonal|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Impresión Diagnóstica:</th>
-                    <td>{{paciente.impresionDiagnostica}}</td>
+                    <td>{{paciente.impresionDiagnostica|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Diagnóstico:</th>
-                    <td>{{paciente.diagnostico}}</td>
+                    <td>{{paciente.diagnostico|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Análisis:</th>
-                    <td>{{paciente.analisis}}</td>
+                    <td>{{paciente.analisis|getValue}}</td>
                 </tr>
                 <tr>
                     <th>Plan de trabajo:</th>
-                    <td>{{paciente.planTrabajo}}</td>
+                    <td>{{paciente.planTrabajo|getValue}}</td>
                 </tr>
             </tbody>
         </table>
@@ -123,7 +125,7 @@
                 <tbody>
                     {% for e in paciente.evolucion_set.all %}                            
                         <tr>
-                            <th>Fecha: {{e.fecha|date:'l, d \d\e F \d\e\l Y'}}</th>
+                            <th>Fecha: {{e.fecha|date:'d \d\e F \d\e\l Y'}}</th>
                             <td>{{e.descripcion}}</td>
                         </tr>
                     {% endfor %}
@@ -133,14 +135,17 @@
     {% endif %}
 
     <div class="my-2 px-4">
-        <p class="mb-1">
-            <b>Firma:</b> <img src="{{ psicologo.firma.url }}" alt="" style="height: 80px;">
+        <p class="mb-1 mt-4">
+            <b>Firma:</b> 
+            {% if psicologo.firma %}
+                <img src="{{ psicologo.firma.url }}" alt="" style="height: 80px;">
+            {% endif %}
         </p>
         <p class="mb-1"><b>Nombre:</b> {{request.user.first_name}} {{request.user.last_name}}</p>
         <p class="mb-1"><b>Tarjeta profesional:</b> {{psicologo.numeroTarjetaProfesional}}</p>
     </div>
     <div class="my-2 text-center">
-        Fecha: {{today|date:'d \d\e F \d\e\l Y'}}
+        {{today|date:'l, d \d\e F \d\e\l Y'}}
     </div>
 
 {% endblock %}

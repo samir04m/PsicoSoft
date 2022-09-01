@@ -55,6 +55,38 @@ def change_password(request):
     })
 
 @login_required(login_url='/login/')
+def setting_account(request):
+    psicologo = Psicologo.objects.filter(usuario=request.user).first()
+    if request.method == 'POST':
+        try:
+            usuario = request.user
+            usuario.first_name = request.POST.get('first_name').title()
+            usuario.last_name = request.POST.get('last_name').title()
+            usuario.email = request.POST.get('email').lower()
+            usuario.save()
+            if psicologo:
+                psicologo.numeroTarjetaProfesional = request.POST.get('numeroTarjetaProfesional')
+                if request.FILES.get('firma'):
+                    psicologo.firma = request.FILES.get('firma')
+                if request.FILES.get('logo'):
+                    psicologo.logo = request.FILES.get('logo')
+            else:
+                psicologo = Psicologo(
+                    usuario = request.user,
+                    numeroTarjetaProfesional = request.POST.get('numeroTarjetaProfesional'),
+                    firma = request.FILES.get('firma'),
+                    logo = request.FILES.get('logo')
+                )
+            psicologo.save()
+            messages.success(request, 'Tu información ha sido guardada exitosamente.', extra_tags='success')
+        except Exception as e:
+            saveLog(request.user, "No se pudo guardar la informacion. Metodo setting_account", e)
+            messages.error(request, 'No fue posible guardar la información. Intente de nuevo.', extra_tags='danger')
+        return redirect('main:setting_account')
+
+    return render(request, 'usuario/setting_account.html', {"psicologo":psicologo})
+
+@login_required(login_url='/login/')
 def CompletarRegistro(request):
     if request.method == 'POST':
         try:
@@ -72,7 +104,7 @@ def CompletarRegistro(request):
             messages.success(request, 'Tu registro se completo exitosamente.', extra_tags='success')
             return redirect('main:PacienteList')
         except Exception as e:
-            saveLog(request.user, "No guardar informacion del psicologo. Metodo CompletarRegistro", e)
+            saveLog(request.user, "No se pudo completar registro del psicologo. Metodo CompletarRegistro", e)
             messages.error(request, 'No fue posible guardar la información. Intente de nuevo.', extra_tags='danger')
             return redirect('main:CompletarRegistro')
     else:
@@ -182,5 +214,5 @@ def PacienteDetails(request, id):
         "psicologo": Psicologo.objects.filter(usuario=request.user).first(),
         "today": datetime.now()
     }
-    print(paciente.evolucion_set.all())
     return render(request, 'paciente/details.html', context)
+

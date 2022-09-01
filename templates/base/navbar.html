@@ -12,20 +12,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'main:PacienteList' %}">Mis Pacientes</a>
+                    <a class="nav-link" href="{% url 'main:PacienteList' %}"><i class="bi bi-people"></i> Mis Pacientes</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-person"></i> {{ request.user }}
+                        <!-- <i class="bi bi-person-circle"></i> -->
+                        <i class="bi bi-person"></i> 
+                        {{ request.user }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'main:change_password' %}">Cambiar contraseña</a></li>
-                        <!-- <li><a class="dropdown-item" href="#">Ajustes de cuenta</a></li> -->
+                        <li><a class="dropdown-item" href="{% url 'main:change_password' %}"><i class="bi bi-repeat"></i> Cambiar contraseña</a></li>
+                        <li><a class="dropdown-item" href="{% url 'main:setting_account' %}"><i class="bi bi-gear"></i> Ajustes de cuenta</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'main:logout' %}">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="{% url 'main:logout' %}"><i class="bi bi-power"></i> Cerrar sesión</a></li>
                     </ul>
                 </li>
 

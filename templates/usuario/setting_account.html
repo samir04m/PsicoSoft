@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Ajustes de cuenta{% endblock %}
+
+{% block contenido %}
+    <h3 class="text-center mt-2 animate__animated animate__fadeInDown">
+        Ajustes de cuenta
+    </h3>
+    <div class="card shadow animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="first_name" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{request.user.first_name}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="last_name" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{request.user.last_name}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{request.user.email}}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="numeroTarjetaProfesional" class="form-label">Tarjeta profesional</label>
+                        <input type="number" class="form-control" id="numeroTarjetaProfesional" name="numeroTarjetaProfesional" value="{{psicologo.numeroTarjetaProfesional}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="firma" class="form-label">
+                            Firma digital
+                            <button type="button" class="btn btn-sm btn-outline-info rounded-circle" data-bs-toggle="popover" 
+                                data-bs-title="Información" data-bs-content="Sube tu firma digital con formato de imagen para que esta sea puesta en las impresiones de historias clínicas." data-bs-placement="top" > <i class="bi bi-question-lg"></i> </button>
+                        </label>
+                        <input type="file" class="form-control" id="firma" name="firma" accept="image/*">
+                        {% if psicologo.firma %}
+                        <div class="row">
+                            <p class="m-2">Firma actual:</p>
+                            <div class="offset-md-2 col-md-8">
+                                    <img src="{{ psicologo.firma.url }}" alt="" class="img-fluid">
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="firma" class="form-label">
+                            Logo
+                            <button type="button" class="btn btn-sm btn-outline-info rounded-circle" data-bs-toggle="tooltip" 
+                            data-bs-placement="top" data-bs-title="Sube un logo que quieras mostrar en la impresión de historias clínicas"> <i class="bi bi-question-lg"></i> </button>
+                        </label>
+                        <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                        {% if psicologo.logo %}
+                        <div class="row">
+                            <p class="m-2">Logo actual:</p>
+                            <div class="offset-md-2 col-md-8">
+                                    <img src="{{ psicologo.logo.url }}" alt="" class="img-fluid">
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-outline-info"><i class="bi bi-check-circle"></i> Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% include 'alertToast.html' %}
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#toastRespuesta').toast('show');
+            $('[data-bs-toggle="tooltip"]').tooltip();
+            $('[data-bs-toggle="popover"]').popover();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,1 @@
+web: gunicorn psicosoft.wsgi --log-file -

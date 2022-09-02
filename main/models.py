@@ -1,22 +1,52 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from PIL import Image
+import base64
+# from PIL import Image
 
 class Psicologo(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     numeroTarjetaProfesional = models.CharField(max_length=50)
-    firma = models.ImageField(upload_to="firmas", null=True, blank=True)
-    logo = models.ImageField(upload_to="logos", null=True, blank=True)
+    firmaBase64 = models.BinaryField(db_column='firma', null=True, blank=True, editable=True)
+    logoBase64 = models.BinaryField(db_column='logo', null=True, blank=True, editable=True)
 
-    def save(self, *args, **kwargs):
-        super(Psicologo, self).save(*args, **kwargs)
-        if self.firma:
-            image = Image.open(self.firma.path)
-            image.save(self.firma.path, quality=20, optimize=True)
-        if self.logo:
-            image = Image.open(self.logo.path)
-            image.save(self.logo.path, quality=20, optimize=True)
+    def set_firma(self, firma):
+        if firma:
+            self.firmaBase64 = base64.b64encode(firma.read())
+    def get_firma(self):
+        if self.firmaBase64:
+            firmaDecode = base64.b64decode(self.firmaBase64)
+            return base64.b64encode(firmaDecode).decode('utf8')
+        return None
+    firma = property(get_firma, set_firma)
+
+    def set_logo(self, logo):
+        if logo:
+            self.logoBase64 = base64.b64encode(logo.read())
+    def get_logo(self):
+        if self.logoBase64:
+            logoDecode = base64.b64decode(self.logoBase64)
+            return base64.b64encode(logoDecode).decode('utf8')
+        return None
+    logo = property(get_logo, set_logo)
+
+    def getImagenFirma(self):
+        return "data:image/png;base64, " + str(self.firma)
+
+    def getImagenLogo(self):
+        return "data:image/png;base64, " + str(self.logo)
+
+    # firma = models.ImageField(upload_to="firmas", null=True, blank=True)
+    # logo = models.ImageField(upload_to="logos", null=True, blank=True)
+
+    # def save(self, *args, **kwargs):
+    #     super(Psicologo, self).save(*args, **kwargs)
+    #     if self.firma:
+    #         image = Image.open(self.firma.path)
+    #         image.save(self.firma.path, quality=20, optimize=True)
+    #     if self.logo:
+    #         image = Image.open(self.logo.path)
+    #         image.save(self.logo.path, quality=20, optimize=True)
 
 
 class Diagnostico(models.Model):

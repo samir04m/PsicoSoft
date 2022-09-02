@@ -35,11 +35,10 @@
                         </label>
                         <input type="file" class="form-control" id="firma" name="firma" accept="image/*">
                         {% if psicologo.firma %}
-                        <div class="row">
-                            <p class="m-2">Firma actual:</p>
-                            <div class="offset-md-2 col-md-8">
-                                    <img src="{{ psicologo.firma.url }}" alt="" class="img-fluid">
-
+                            <div class="row">
+                                <p class="m-2">Firma actual:</p>
+                                <div class="offset-md-2 col-md-8">
+                                    <img src="{{ psicologo.getImagenFirma }}" alt="Imagen de firma actual" class="img-fluid">
                                 </div>
                             </div>
                         {% endif %}
@@ -52,11 +51,10 @@
                         </label>
                         <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
                         {% if psicologo.logo %}
-                        <div class="row">
-                            <p class="m-2">Logo actual:</p>
-                            <div class="offset-md-2 col-md-8">
-                                    <img src="{{ psicologo.logo.url }}" alt="" class="img-fluid">
-
+                            <div class="row">
+                                <p class="m-2">Logo actual:</p>
+                                <div class="offset-md-2 col-md-8">
+                                    <img src="{{ psicologo.getImagenLogo }}" alt="Imagen de logo actual" class="img-fluid">
                                 </div>
                             </div>
                         {% endif %}

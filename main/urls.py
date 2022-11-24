@@ -11,6 +11,8 @@ urlpatterns = [
     path('editar-paciente/<int:id>', views.PacienteUpdate, name='PacienteUpdate'),
     path('evolucion-paciente/<int:id>', views.PacienteEvolucion, name='PacienteEvolucion'),
     path('historia-clinica/<int:id>', views.PacienteDetails, name='PacienteDetails'),
+    path('archivar-paciente/<int:id>', views.PacienteArchive, name='PacienteArchive'),
+    path('pacientes-archivados/', views.PacientesArchived, name='PacientesArchived'),
 
     path('login/', views.Login, name='login'),
     path('logout/', views.Logout, name='logout'),

@@ -112,7 +112,10 @@ def CompletarRegistro(request):
 
 @login_required(login_url='/login/')
 def PacienteList(request):
-    pacientes = Paciente.objects.filter(usuario = request.user).order_by('-id')
+    if request.user.is_superuser:
+        pacientes = Paciente.objects.all().order_by('-id')
+    else:
+        pacientes = Paciente.objects.filter(usuario = request.user, visible=True).order_by('-id')
     context = {
         "pacientes": pacientes,
         "selectTipoDocumento": GetSelectTipoDocumento()
@@ -208,7 +211,10 @@ def PacienteEvolucion(request, id):
 
 @login_required(login_url='/login/')
 def PacienteDetails(request, id):
-    paciente = get_object_or_404(Paciente, id=id)
+    if request.user.is_superuser:
+        paciente = get_object_or_404(Paciente, id=id)
+    else:
+        paciente = get_object_or_404(Paciente, id=id, usuario=request.user)
     context = {
         "paciente": paciente, 
         "psicologo": Psicologo.objects.filter(usuario=request.user).first(),
@@ -216,3 +222,41 @@ def PacienteDetails(request, id):
     }
     return render(request, 'paciente/details.html', context)
 
+@login_required(login_url='/login/')
+def PacienteArchive(request, id):
+    paciente = Paciente.objects.get(id=id, usuario = request.user)
+    redireccion = 'main:PacienteList'
+    if paciente:
+        estado = paciente.visible
+        if estado:
+            mensajeSuccess = 'El paciente se archivó correctamente.'
+            mensajeError = 'No fue posible archivar al paciente.'
+        else:
+            mensajeSuccess = 'El paciente se desarchivó correctamente.'
+            mensajeError = 'No fue posible desarchivar al paciente.'
+            redireccion = 'main:PacientesArchived'
+
+        try:    
+            paciente.visible = not estado
+            paciente.save()
+            messages.success(request, mensajeSuccess, extra_tags='success')
+        except Exception as e:
+            saveLog(request.user, "No se pudo cambiar la visibilidad del Paciente. Metodo PacienteArchive", e)
+            messages.error(request, mensajeError, extra_tags='danger')
+
+    return redirect(redireccion)
+
+
+@login_required(login_url='/login/')
+def PacientesArchived(request):
+    if request.user.is_superuser:
+        pacientes = Paciente.objects.filter(visible=False).order_by('-id')
+    else:
+        pacientes = Paciente.objects.filter(usuario = request.user, visible=False).order_by('-id')
+    context = {
+        "pacientes": pacientes
+    }
+    return render(request, 'paciente/archived.html', context)
+    
+
+        

@@ -29,6 +29,9 @@
                                 <td>{{p.tipoDocumento}} {{p.numeroDocumento}}</td>
                                 <td>{{p.nombres}} {{p.apellidos}}</td>
                                 <td>
+                                    <a href="{% url 'main:PacienteArchive' p.id %}" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-archive"></i> 
+                                    </a>
                                     <a href="{% url 'main:PacienteUpdate' p.id %}" class="btn btn-sm btn-outline-success">
                                         <i class="bi bi-pencil"></i> 
                                     </a>

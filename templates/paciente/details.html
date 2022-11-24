@@ -125,7 +125,7 @@
                 <tbody>
                     {% for e in paciente.evolucion_set.all %}                            
                         <tr>
-                            <th>Fecha: {{e.fecha|date:'d \d\e F \d\e\l Y'}}</th>
+                            <th>Fecha: {{e.fecha|date:'d/m/Y'}}</th>
                             <td>{{e.descripcion}}</td>
                         </tr>
                     {% endfor %}

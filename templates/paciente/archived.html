@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+{% load myTags %}
+
+{% block title %}Pacientes archivados{% endblock %}
+
+{% block contenido %}
+    <div class="card shadow animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <h4 class="card-title text-center">
+                <i class="bi bi-archive"></i> Pacientes archivados
+            </h4>
+            <hr>
+            {% if pacientes %}
+                <table class="table table-responsive-sm" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Nombre</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in pacientes %}
+                            <tr>
+                                <td>{{p.tipoDocumento}} {{p.numeroDocumento}}</td>
+                                <td>{{p.nombres}} {{p.apellidos}}</td>
+                                <td>
+                                    <a href="{% url 'main:PacienteArchive' p.id %}" class="btn btn-sm btn-warning">
+                                        <i class="bi bi-archive"></i> Desarchivar
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="text-center py-5 my-5">
+                    <p>No hay pacientes archivados en este momento.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include 'alertToast.html' %}
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                order: []
+            });
+            $('#toastRespuesta').toast('show');
+        });
+    </script>
+{% endblock %}

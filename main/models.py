@@ -79,6 +79,7 @@ class Paciente(models.Model):
     analisis = models.TextField(null=True, blank=True)
     planTrabajo = models.TextField(null=True, blank=True)
     fecha = models.DateTimeField()
+    visible = models.BooleanField(default=True)
     
     def __str__(self):
         return "{} {}".format(self.nombres, self.apellidos)

@@ -1,6 +1,11 @@
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
+from django.contrib.auth.models import User
 from .models import *
+
+class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ['username','email']
+    list_display = ('username','email','is_staff','is_superuser','is_active',)
 
 class PsicologoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['usuario']
@@ -21,6 +26,10 @@ class EvolucionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class ExceptionLogAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['usuario']
     list_display = ('id','usuario','descripcion','fecha',)
+
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 admin.site.register(Psicologo, PsicologoAdmin)
 admin.site.register(Diagnostico, DiagnosticoAdmin)
